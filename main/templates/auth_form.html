@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block content %}
+      <!-- contact section start -->
+      <div class="contact_section layout_padding">
+        <div class="container">
+           <div class="row">
+              <div class="col-lg-9 mx-auto">
+                 <div class="contact_main">
+                    <h1 class="contact_taital">{{action}}</h1>
+                    <p>{{error}}</p>
+                    <form method="POST">
+                        {% csrf_token %}
+                       <div class="form-group">
+                          <input type="text" class="email-bt" placeholder="Username" name="username">
+                       </div>
+                       <div class="form-group">
+                          <input type="password" class="email-bt" placeholder="Password" name="password">
+                       </div>
+                       <button type="submit"><div class="send_bt text-white"><a>{{action}}</a></div></button>
+                    </form>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+     <!-- contact section end -->
+
+{% endblock content %}
