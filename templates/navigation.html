@@ -1,3 +1,39 @@
-<nav>
-    {{request.user.username}}
-</nav>
+      <!-- footer section start -->
+      <div class="footer_section layout_padding pt-3 pb-0">
+              <div class="footer_menu">
+               {% if include_post_quote %}
+               <a href="">
+               <div class="row">
+                  <div class="col-sm-12 mx-auto">
+                     <h1 class="subscribe_text">Post Quote</h1>
+                     <div class="input_bt">
+                        <div class="input-group mb-3">
+                           <input type="text" class="form-control" placeholder="Enter Your Quote" name="quote" aria-label="Enter Your Quote" aria-describedby="basic-addon2">
+                           <div class="input-group-append">
+                              <button class="btn btn-outline-secondary" type="button"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                           </div>
+                        </div>
+                     </div>      
+                  </div>
+               </div>
+               <br>      
+               </a>
+               {% endif %}
+               <div class="row">
+                    <div class="col-sm-12 mx-auto">
+                           <ul>
+                              <li><a href="">Motive</a></li>
+                              <li><a href="">Quotes</a></li>
+                              {% if request.user.is_authenticated %}
+                              <li><a href="">@{{request.user.username}}</a></li>
+                              <li><a href="">Logout</a></li>
+                              {% else %}
+                              <li><a href="">Register</a></li>
+                              <li><a href="">Login</a></li>
+                              {% endif %}
+                           </ul>
+                        </div>
+                    </div>
+              </div>
+     </div>
+     <!-- footer section end -->
