@@ -21,6 +21,13 @@ def register_view(request):
             error = "Please Fill Out All The Fields!"
 
         if not error:
+            try:
+                user = User.objects.get(username = username)
+                error = "User With This Username Already Exists!"
+            except User.DoesNotExist:
+                pass
+
+        if not error:
             if not is_valid_password(password)["validity"]:
                 error = is_valid_password(password)["error"]
 
