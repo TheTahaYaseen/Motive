@@ -126,7 +126,7 @@ def update_quote_view(request, quote_id):
     return render(request, "quote_form.html", context)
 
 @login_required(login_url="login")
-def update_quote_view(request, quote_id):
+def delete_quote_view(request, quote_id):
     
     quote = Quote.objects.get(id = quote_id)
 
@@ -142,3 +142,13 @@ def update_quote_view(request, quote_id):
 
     context = {"item_category": item_category, "item": item}
     return render(request, "delete.html", context)
+
+def profile_view(request, profile_id):
+
+    author = User.objects.get(id = profile_id)
+    quotes = Quote.objects.filter(by = author)
+    include_post_quote = True
+    filtered_by_publisher = True
+
+    context = {"author": author, "quotes": quotes, "include_post_quote": include_post_quote, "filtered_by_publisher": filtered_by_publisher}
+    return render(request, "profile.html", context)
