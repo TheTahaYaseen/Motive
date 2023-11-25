@@ -13,7 +13,41 @@
             <div class="barber_bg_main">
                 <span class="barber_taital" style="font-size: 1.2em; color: black; padding: 0; padding-top: 0.5em;">" {{quote.quote}} "</span>
                 <span class="barber_taital" style="font-size: 0.9em; color: black; padding: 0;"><a href="{% url 'profile' quote.by.id %}">- @{{quote.by.username}}</a></span>
-            <br>
+                <div class="row" style="margin-top: 5em;">
+                        <div class="col mr-auto">
+                            <span class="barber_taital" style="font-size: 1.5em; color: black; padding: 0;">Comments</span>
+                            <form method="POST">
+                                {% csrf_token %}
+                                <div class="input-group">
+                                    <input name="quote_id" value={{quote.id}} hidden>
+                                    <input style="font-size: 1.1em;" type="text" class="form-control" placeholder="Your Opinion Goes Here...." name="comment" aria-label="Your Opinion Goes Here...." aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                       <button class="btn btn-outline-secondary" type="submit"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                                    </div>
+                                 </div>          
+                            </form>
+                            
+                            {% for comment in quote.comments.all %}
+                            <div class="row">
+                                <div class="col mt-3">
+                                    <span class="barber_taital" style="font-size: 0.9em; color: black; padding: 0;">
+                                        {% if request.user == comment.by %}
+                                        <a href="{% url 'delete_comment' comment.id %}"><i class="fa fa-remove"></i></a>
+                                        {% endif %}
+                                        <a href="{% url 'profile' comment.by.id %}" class="ml-1">- @{{comment.by.username}}</a>                
+                                    </span>                                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <span class="barber_taital" style="font-size: 1em; color: black; padding: 0;">{{comment.comment}}</span>                                                    
+                                </div>
+                            </div>
+                            {% endfor %}            
+                        </div>
+                       </div>
+                    </div>
+                 </div>
         </div>
     </div>
 </div>

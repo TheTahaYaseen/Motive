@@ -4,12 +4,32 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
-from .models import Quote
+from .models import Quote, Comment
 from .functions import is_valid_password
 
 def home_view(request):
     include_post_quote = True
     quotes = Quote.objects.all().order_by("-created")
+
+    if request.method == "POST":
+        quote_id = request.POST.get("quote_id")
+        comment = request.POST.get("comment")
+        
+        if not request.user.is_authenticated:
+            return redirect("login")
+
+        if comment == "":
+            return redirect("home")
+
+        comment = Comment.objects.create(
+            by = request.user,
+            comment = comment
+        )
+
+        quote = Quote.objects.get(id=quote_id)
+        quote.comments.add(comment)
+        quote.save()
+
     context = {"include_post_quote": include_post_quote, "quotes": quotes}
     return render(request, "home.html", context)
 
@@ -152,3 +172,13 @@ def profile_view(request, profile_id):
 
     context = {"author": author, "quotes": quotes, "include_post_quote": include_post_quote, "filtered_by_publisher": filtered_by_publisher}
     return render(request, "profile.html", context)
+
+@login_required(login_url="login")
+def delete_comment_view(request, comment_id):
+    
+    comment = Comment.objects.get(id = comment_id)
+
+    if request.user == comment.by:
+        comment.delete()
+    
+    return redirect("home")
